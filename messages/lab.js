@@ -3,6 +3,6 @@ function parse() {
 	request.open('GET', 'data.json', true);
 
 	request.send();
-	//console.log(request.responseHtml);
+	console.log(request.responseHtml);
 
 }
