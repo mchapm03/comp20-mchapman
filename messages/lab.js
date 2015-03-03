@@ -3,6 +3,9 @@ function parse() {
 	request.open('GET', 'data.json', true);
 
 	request.send();
-	console.log(request.responseHtml);
+	request.onreadystatechange = parsedata();
+}
 
+function parsedata() {
+	console.log("In parsedata.");
 }
