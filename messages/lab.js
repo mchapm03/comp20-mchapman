@@ -4,10 +4,12 @@ function parse() {
 
 	request.send();
 	request.onreadystatechange = function(){
-		parsedata(JSON.parse(request.responseText));
-	}
+		if(request.readyState == 4){
+			parsedata(JSON.parse(request.responseText));
+		}
+	};
 }
 
 function parsedata(jsontext) {
-	console.log("jsontext");
+	console.log(jsontext);
 }
