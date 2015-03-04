@@ -3,10 +3,11 @@ function parse() {
 	request.open('GET', 'data.json', true);
 
 	request.send();
-	request.onreadystatechange = parsedata();
+	request.onreadystatechange = function(){
+		parsedata(JSON.parse(request.responseText));
+	}
 }
 
-function parsedata() {
-	messages = JSON.parse(request.responseText);
-	//console.log("messages.content");
+function parsedata(jsontext) {
+	console.log("jsontext");
 }
