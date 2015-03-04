@@ -11,5 +11,5 @@ function parse() {
 }
 
 function parsedata(jsontext) {
-	console.log(jsontext);
+	console.log(jsontext[0].content);
 }
