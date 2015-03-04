@@ -8,5 +8,5 @@ function parse() {
 
 function parsedata() {
 	messages = JSON.parse(request.responseText);
-	console.log("messages[0].content");
+	console.log("messages.content");
 }
