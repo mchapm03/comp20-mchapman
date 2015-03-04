@@ -1,1 +1,9 @@
-/* Your style goes here, whatever you like *./
+.message{
+	font-size: 16px;
+	color:magenta;
+}
+
+.author{
+	font-size: 12px;
+	color:black;
+}
