@@ -7,5 +7,6 @@ function parse() {
 }
 
 function parsedata() {
-	console.log("In parsedata.");
+	messages = JSON.parse(request.responseText);
+	console.log("messages[0].content");
 }
