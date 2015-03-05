@@ -9,13 +9,13 @@
 
 	<script type="text/javascript">
 		function initialize() {
-			var myLat = 0;
-			var myLng = 0;
+			myLat = 0;
+			myLng = 0;
 			getmyLocation();
 	
-			var myLatlng = new google.maps.LatLng(myLat, myLng);
+			myLatlng = new google.maps.LatLng(myLat, myLng);
 
-			var mapOptions = {
+			mapOptions = {
 				center: myLatlng,
 				zoom: 15
 			};
@@ -29,7 +29,6 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
-						myLatlng = new google.maps.LatLng(myLat, myLng);
 						renderMap();					
 						callDataStore();
 
