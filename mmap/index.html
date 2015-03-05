@@ -12,10 +12,9 @@
 			myLat = 0;
 			myLng = 0;
 			getmyLocation();
-			var myLatlng = new google.maps.LatLng(myLat, myLng);
 
 			var mapOptions = {
-				center: myLatlng,
+				center: {myLat, myLng},
 				zoom: 5
 			};
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -23,7 +22,7 @@
 			console.log("got map");
 
 			marker = new google.maps.Marker({
-				position: myLatlng,
+				position: {myLat, myLng},
 				map: map,
 				title: "Title"
 			});
