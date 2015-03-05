@@ -24,11 +24,6 @@
 
 			console.log("got map");
 
-			marker = new google.maps.Marker({
-				position: myLatlng,
-				map: map,
-				title: "Title"
-			});
 		}
 
 		function getmyLocation(){
@@ -48,6 +43,15 @@
 
 		function renderMap() {
 			map.panTo(myLatlng);
+
+			marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: "Title"
+			});
+
+			marker.setMap(map);
+
 		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
