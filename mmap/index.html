@@ -41,7 +41,8 @@
 		}
 
 		function renderMap() {
-			map.panTo(myLatlng);
+			fakeLatLng = new google.maps.LatLng(50, -100);
+			map.panTo(fakeLatLng);
 
 			var pachy = {
     			url: 'pachy.jpg',
@@ -49,13 +50,13 @@
     			origin: new google.maps.Point(0,0),
   			};
 			marker = new google.maps.Marker({
-				position: myLatlng,
+				position: fakeLatLng,
 				map: map,
 				title: "LeslieDapper",
 				animation: google.maps.Animation.DROP,
 				icon: pachy
 			});
-
+			//Add my icon to the map in my location
 			marker.setMap(map);
 
 		}
@@ -88,7 +89,6 @@
 
 				// To add the marker to the map, call setMap();
 				newmarker.setMap(map);
-
 			}
 		}
 		function calcDist(Lat1, Lng1){
