@@ -9,12 +9,14 @@
 
 	<script type="text/javascript">
 		function initialize() {
-			myLat = 0;
-			myLng = 0;
+			var myLat = 0;
+			var myLng = 0;
 			getmyLocation();
+	
+			var myLatlng = new google.maps.LatLng(myLat, myLng);
 
 			var mapOptions = {
-				center: {myLat, myLng},
+				center: myLatlng,
 				zoom: 5
 			};
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -22,7 +24,7 @@
 			console.log("got map");
 
 			marker = new google.maps.Marker({
-				position: {myLat, myLng},
+				position: myLatlng,
 				map: map,
 				title: "Title"
 			});
@@ -34,11 +36,16 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
+						renderMap();
 					});
 				}
 				else {
 					alert("Geolocation is not supported by your web browser.  What a shame!");
 				}
+		}
+
+		function renderMap() {
+			map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
