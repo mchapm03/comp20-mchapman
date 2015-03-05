@@ -24,7 +24,6 @@
 
 			console.log("got map");
 
-			callDataStore();
 
 		}
 
@@ -35,7 +34,9 @@
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
 						myLatlng = new google.maps.LatLng(myLat, myLng);
-						renderMap();
+						renderMap();					
+						callDataStore();
+
 					});
 				}
 				else {
