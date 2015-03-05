@@ -4,7 +4,7 @@ function parse() {
 
 	request.send();
 	request.onreadystatechange = function(){
-		if(request.readyState == 4){
+		if(request.readyState == 4 && request.status == 200){
 			parsedata(JSON.parse(request.responseText));
 		}
 	};

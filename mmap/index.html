@@ -69,9 +69,10 @@
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			request.send(param);
 			request.onreadystatechange = function(){
-				if(request.readyState == 4){
+				if(request.readyState == 4 && request.status == 200){
 					parsedata(JSON.parse(request.responseText));
 				}
+				
 			};
 		}
 
