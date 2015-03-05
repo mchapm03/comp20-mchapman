@@ -86,6 +86,7 @@
 				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
 				var newmarker = new google.maps.Marker({
     				position: new google.maps.LatLng(data[i].lat, data[i].lng),
+    				size: google.maps.Size(10,15);
     				title: "name: "+data[i].login+"\nDistance: " +calcDist(newLat, newLng)
 
 				});
