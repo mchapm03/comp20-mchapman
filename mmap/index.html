@@ -44,7 +44,11 @@
 		function renderMap() {
 			map.panTo(myLatlng);
 
-			var pachy = 'pachy.jpg';
+			var pachy = {
+    			url: 'pachy.jpg',
+   				size: new google.maps.Size(20, 32),
+    			origin: new google.maps.Point(0,0),
+  			};
 			marker = new google.maps.Marker({
 				position: myLatlng,
 				map: map,
