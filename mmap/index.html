@@ -9,8 +9,10 @@
 
 	<script type="text/javascript">
 		function initialize() {
+			myLat = 0;
+			myLng = 0;
 			getmyLocation();
-	
+
 			myLatlng = new google.maps.LatLng(myLat, myLng);
 
 			mapOptions = {
@@ -27,6 +29,8 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
+						myLatlng = new google.maps.LatLng(myLat, myLng);
+
 						renderMap();					
 						callDataStore();
 
