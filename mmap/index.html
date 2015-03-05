@@ -11,7 +11,7 @@
 		function initialize() {
 			myLat = 0;
 			myLng = 0;
-			getmyLocation(myLat, myLng);
+			getmyLocation();
 			var myLatlng = new google.maps.LatLng(myLat, myLng);
 
 			var mapOptions = {
@@ -35,8 +35,6 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
-									console.log(myLat +' '+ myLng);
-
 					});
 				}
 				else {
