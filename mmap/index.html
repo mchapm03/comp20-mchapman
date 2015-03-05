@@ -33,16 +33,15 @@
 			console.log('In get my location');
 			if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
 					navigator.geolocation.getCurrentPosition(function(position) {
-										console.log('navigator');
-
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
+									console.log(myLat +' '+ myLng);
+
 					});
 				}
 				else {
 					alert("Geolocation is not supported by your web browser.  What a shame!");
 				}
-			console.log(myLat +' '+ myLng);
 		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
