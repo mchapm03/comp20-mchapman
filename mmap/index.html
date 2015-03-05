@@ -19,6 +19,7 @@
 				center: myLatlng,
 				zoom: 5
 			};
+
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 			console.log("got map");
@@ -45,7 +46,8 @@
 		}
 
 		function renderMap() {
-			map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			console.log('In renderMap');
+			map.panTo(myLatlng);
 		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
