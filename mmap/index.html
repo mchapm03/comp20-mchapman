@@ -41,8 +41,7 @@
 		}
 
 		function renderMap() {
-			fakeLatLng = new google.maps.LatLng(50, -100);
-			map.panTo(fakeLatLng);
+			map.panTo(myLatlng);
 
 			var pachy = {
     			url: 'pachy.jpg',
@@ -50,7 +49,7 @@
     			origin: new google.maps.Point(0,0),
   			};
 			marker = new google.maps.Marker({
-				position: fakeLatLng,
+				position: myLatlng,
 				map: map,
 				title: "LeslieDapper",
 				animation: google.maps.Animation.DROP,
