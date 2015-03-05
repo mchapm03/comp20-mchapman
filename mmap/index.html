@@ -25,7 +25,6 @@
 		}
 
 		function getmyLocation(){
-			console.log('In get my location');
 			if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
@@ -46,7 +45,7 @@
 
 			var pachy = {
     			url: 'pachy.jpg',
-   				scaledSize: new google.maps.Size(20, 32),
+   				scaledSize: new google.maps.Size(30, 42),
     			origin: new google.maps.Point(0,0),
   			};
 			marker = new google.maps.Marker({
