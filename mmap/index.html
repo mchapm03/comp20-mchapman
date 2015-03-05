@@ -37,6 +37,7 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
+						myLatlng = new google.maps.LatLng(myLat, myLng);
 						renderMap();
 					});
 				}
@@ -46,7 +47,6 @@
 		}
 
 		function renderMap() {
-			console.log('In renderMap');
 			map.panTo(myLatlng);
 		}
 	</script>
