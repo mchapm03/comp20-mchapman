@@ -55,7 +55,7 @@
 			marker = new google.maps.Marker({
 				position: myLatlng,
 				map: map,
-				title: "Title",
+				title: "LeslieDapper",
 				animation: google.maps.Animation.DROP,
 				icon: pachy
 			});
@@ -81,17 +81,33 @@
 
 		function parsedata(data){
 			for(i in data){
-
+				var newLat = data[i].lat;
+				var newLng = data[i].lng;
 				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
 				var newmarker = new google.maps.Marker({
     				position: new google.maps.LatLng(data[i].lat, data[i].lng),
-    				title: data[i].login
+    				title: "name: "+data[i].login+", Distance: " +calcDist(newLat, newLng)
+
 				});
 
 				// To add the marker to the map, call setMap();
 				newmarker.setMap(map);
 
 			}
+		}
+		function calcDist(Lat1, Lng1){
+			R = 3959;
+			x1 = toRad(Lat1);
+			x2 = toRad(myLat);
+			y1 = toRad(myLng - Lng1);
+			y2 = toRad(myLat - Lat1);
+
+			a = Math.sin(y2/2) * Math.sin(y2/2) + Math.cos(x1) * Math.cos(x2) * Math.sin(y1/2) * Math.sin(y1/2);
+			c = 2 * Math.atan(Math.sqrt(a), Math.sqrt(1-a));
+			return (R * c);
+		}
+		function toRad(x) {
+   			return x * Math.PI / 180;
 		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
