@@ -44,10 +44,13 @@
 		function renderMap() {
 			map.panTo(myLatlng);
 
+			var icon = 'pachy.jpg';
 			marker = new google.maps.Marker({
 				position: myLatlng,
 				map: map,
-				title: "Title"
+				title: "Title",
+				animation: google.maps.Animation.DROP
+				icon: pachy;
 			});
 
 			marker.setMap(map);
