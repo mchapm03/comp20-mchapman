@@ -24,6 +24,8 @@
 
 			console.log("got map");
 
+			callDataStore();
+
 		}
 
 		function getmyLocation(){
@@ -59,6 +61,25 @@
 
 			marker.setMap(map);
 
+		}
+
+		function callDataStore(){
+			var request =  new XMLHttpRequest();
+			var url = 'https://secret-about-box.herokuapp.com/sendLocation';
+			var param = "login=LeslieDapper&lat="+myLat+"&lng="+myLng;
+			request.open("POST", url, true);
+
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.send(param);
+			request.onreadystatechange = function(){
+				if(request.readyState == 4){
+					parsedata(JSON.parse(request.responseText));
+				}
+			};
+		}
+
+		function parsedata(data){
+			console.log(data[0]);
 		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
