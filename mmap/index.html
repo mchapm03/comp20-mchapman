@@ -9,21 +9,45 @@
 
 	<script type="text/javascript">
 		function initialize() {
+			myLat = 0;
+			myLng = 0;
+			getmyLocation(myLat, myLng);
+			var myLatlng = new google.maps.LatLng(myLat, myLng);
 
 			var mapOptions = {
-				center: { lat: 40, lng: -40},
-				zoom: 8
+				center: myLatlng,
+				zoom: 5
 			};
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+			console.log("got map");
+
+			marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: "Title"
+			});
 		}
 
-		google.maps.event.addDomListener(window, 'load', initialize);
+		function getmyLocation(){
+			console.log('In get my location');
+			if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
+					navigator.geolocation.getCurrentPosition(function(position) {
+										console.log('navigator');
 
-
+						myLat = position.coords.latitude;
+						myLng = position.coords.longitude;
+					});
+				}
+				else {
+					alert("Geolocation is not supported by your web browser.  What a shame!");
+				}
+			console.log(myLat +' '+ myLng);
+		}
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
 </head>
-<body>
+<body onload='initialize()'>
 	<div id = 'map'></div>
 </body>
 </html>
