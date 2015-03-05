@@ -20,10 +20,7 @@
 				zoom: 15
 			};
 
-			map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-			console.log("got map");
-
+			//map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 		}
 
@@ -45,6 +42,7 @@
 		}
 
 		function renderMap() {
+			map = new google.maps.Map(document.getElementById('map'), mapOptions);
 			map.panTo(myLatlng);
 
 			var pachy = {
@@ -67,7 +65,7 @@
 		function callDataStore(){
 			var request =  new XMLHttpRequest();
 			var url = 'https://secret-about-box.herokuapp.com/sendLocation';
-			var param = "login=LeslieDapper&lat="+myLat+"&lng="+myLng;
+			var param = "login=LeslieDapper&lat=" + myLat + "&lng=" + myLng;
 			request.open("POST", url, true);
 
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -86,8 +84,7 @@
 				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
 				var newmarker = new google.maps.Marker({
     				position: new google.maps.LatLng(data[i].lat, data[i].lng),
-    				size: google.maps.Size(10,15),
-    				title: "name: "+data[i].login+"\nDistance: " +calcDist(newLat, newLng)
+    				title: "name: " + data[i].login + "\nDistance: " +calcDist(newLat, newLng)
 
 				});
 
