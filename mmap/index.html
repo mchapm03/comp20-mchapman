@@ -81,7 +81,14 @@
 
 		function parsedata(data){
 			for(i in data){
-				console.log(data[i]);
+				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
+				var marker = new google.maps.Marker({
+    				position: newLatlng,
+    				title:"data[i].login"
+				});
+
+				// To add the marker to the map, call setMap();
+				marker.setMap(map);
 
 			}
 		}
