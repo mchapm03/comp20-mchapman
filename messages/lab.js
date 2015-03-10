@@ -1,6 +1,6 @@
 function parse() {
 	request = new XMLHttpRequest();
-	request.open('GET', 'data.json', true);
+	request.open('GET', 'http://messagehub.herokuapp.com/', true);
 
 	request.send();
 	request.onreadystatechange = function(){
