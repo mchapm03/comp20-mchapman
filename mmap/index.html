@@ -52,12 +52,17 @@
 			marker = new google.maps.Marker({
 				position: myLatlng,
 				map: map,
-				title: "LeslieDapper",
 				animation: google.maps.Animation.DROP,
 				icon: pachy
 			});
 			//Add my icon to the map in my location
 			marker.setMap(map);
+			infowindow = new google.maps.InfoWindow({
+					content: "LeslieDapper"
+			});
+			google.maps.event.addListener(marker, 'click', function(){
+					infowindow.open(map, marker);
+			});
 
 		}
 
@@ -78,19 +83,28 @@
 		}
 
 		function parsedata(data){
+			newinfowindow = [];
+			newmarker = [];
+			nwindow = [];
 			for(i in data){
 				var newLat = data[i].lat;
 				var newLng = data[i].lng;
 				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
-				var newmarker = new google.maps.Marker({
+				newinfowindow[i] = "Name: " + data[i].login + "<br> Distance: " +calcDist(newLat, newLng).toFixed(5) + " miles";
+				newmarker[i] = new google.maps.Marker({
     				position: new google.maps.LatLng(data[i].lat, data[i].lng),
-    				title: "name: " + data[i].login + "\nDistance: " +calcDist(newLat, newLng).toFixed(5) + " miles"
-
 				});
-
+				nwindow[i] = new google.maps.InfoWindow({
+						content: newinfowindow[i]});
+				
 				// To add the marker to the map, call setMap();
-				newmarker.setMap(map);
+				newmarker[i].setMap(map);
+				
+				google.maps.event.addListener(newmarker[i], 'click', function(){
+					nwindow[i].open(map,newmarker[i]);
+				});
 			}
+		
 		}
 		function calcDist(Lat1, Lng1){
 			R = 6371;
