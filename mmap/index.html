@@ -30,10 +30,8 @@
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
 						myLatlng = new google.maps.LatLng(myLat, myLng);
-
 						renderMap();					
 						callDataStore();
-
 					});
 				}
 				else {
@@ -44,6 +42,7 @@
 		function renderMap() {
 			map.panTo(myLatlng);
 
+			//My icon is the pachyderm
 			var pachy = {
     			url: 'pachy.jpg',
    				scaledSize: new google.maps.Size(30, 42),
@@ -55,7 +54,6 @@
 				animation: google.maps.Animation.DROP,
 				icon: pachy
 			});
-			//Add my icon to the map in my location
 			marker.setMap(map);
 			infowindow = new google.maps.InfoWindow({
 					content: "LeslieDapper"
@@ -83,25 +81,22 @@
 		}
 
 		function parsedata(data){
-			newinfowindow = [];
 			newmarker = [];
-			nwindow = [];
 			for(i in data){
-				var newLat = data[i].lat;
-				var newLng = data[i].lng;
 				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
-				newinfowindow[i] = "Name: " + data[i].login + "<br> Distance: " +calcDist(newLat, newLng).toFixed(5) + " miles";
 				newmarker[i] = new google.maps.Marker({
     				position: new google.maps.LatLng(data[i].lat, data[i].lng),
+    				title: "Name: " + data[i].login + "<br> Distance: " +calcDist(data[i].lat, data[i].lng).toFixed(5) + " miles"
 				});
-				nwindow[i] = new google.maps.InfoWindow({
-						content: newinfowindow[i]});
 				
 				// To add the marker to the map, call setMap();
 				newmarker[i].setMap(map);
-				
+				//add infowindow to each marker
+				newinfowindow = new google.maps.InfoWindow();
 				google.maps.event.addListener(newmarker[i], 'click', function(){
-					nwindow[i].open(map,newmarker[i]);
+					newinfowindow.setContent(this.title);
+					newinfowindow.open(map, this);
+
 				});
 			}
 		
@@ -117,9 +112,11 @@
 			c = 2 * Math.atan(Math.sqrt(a), Math.sqrt(1-a));
 			return ((R * c)/ 1.60934);
 		}
+
 		function toRad(x) {
    			return x * Math.PI / 180;
 		}
+
 	</script>
 	<link rel="stylesheet" href="mmap_style.css" type="text/css" />
 </head>
