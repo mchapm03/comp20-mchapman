@@ -9,13 +9,15 @@
 	  $(document).ready(function(){
 	  		$('#msg').change(function(){
 	  			time = new Date();
-	  			localStorage.setItem(time, $('#msg').val());
+	  			localStorage.setItem('caplog' + time, $('#msg').val());
 	  			display();
 	  		})
 	  		function display(){
 	  			$('#log').html("");
 	  			$.each(localStorage, function(key, value){
-	  				$('#log').prepend('<p>' + key + ' - ' + value + '</p>');
+	  				if(key.substr(0, 5)=='caplog'){
+	  					$('#log').prepend('<p>' + key.substr(5) + ' - ' + value + '</p>');
+	  				}
 	  			})
 	  		}
  		});
