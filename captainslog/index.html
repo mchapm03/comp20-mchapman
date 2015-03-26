@@ -15,7 +15,7 @@
 	  		function display(){
 	  			$('#log').html("");
 	  			$.each(localStorage, function(key, value){
-	  				if(key.substr(0, 5)=='caplog'){
+	  				if(key.substr(0, 6)=='caplog'){
 	  					$('#log').prepend('<p>' + key.substr(5) + ' - ' + value + '</p>');
 	  				}
 	  			})
