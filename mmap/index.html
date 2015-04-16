@@ -83,7 +83,6 @@
 
 		function parsedata(data){
 			newmarker = [];
-			console.log(data);
 			for(i in data){
 				var newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
 				newmarker[i] = new google.maps.Marker({
