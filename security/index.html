@@ -4,25 +4,41 @@
 
 <head>
 	<title>Security Log</title>
+	<link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 
 <body>
 	<h1>Security Assessment of Owen Martin's Marauder's Map</h1>
 		<ol><li> <h3>Cross Site scripting</h3>
+			<h4>Severity: High</h4>
+			<h4>Found on: POSTs submitted to '/sendlocation' and then displayed on the '/' homepage</h4>
 
-		<p>To guard against this: 
-		Use HTML encoding. Can use the npm package html-entities. Envoke with:
-		var Entities = require('html-entities').XmlEntities;
-		entities = new Entities();
-		var safe-string = entities.encode(string);</p></li>
+		<div class="problem"><p>This mmap web application is vulnerable to Cross Site Scripting attack because the client shows user input without encoding or sanitizing special characters. Cross Site scripting can occur when a user passes javascript as an input. When this input is rendered on a web page the script will be executed, and the javascript will be run. An example of an attach would be for a user to pass &lt;script&gt;document.body.innerHTML='&lt;h1&gt;Youve been hacked by Maggie!&lt;/h1&gt;&lt;img &quot;http://www.gotuftsjumbos.com/images/field_hockey/2012_headshots/chapman.JPG?max_width=160&amp;max_height=210&quot;/&gt;'&lt;/script&gt; as the login parameter. This causes the following to show when the locations are displayed:<br/><img class="small-pic" src="xss.png" alt="Bad effects from XSS"/>Users essecially have access to do anything that a javascript function could do.</ul></p></div>
+		<h4>Resolution:</h4> 
+		<p>Use HTML encoding. Can use the npm package html-entities. Envoke with:
+		<br/>var Entities = require('html-entities').XmlEntities;
+		<br/>entities = new Entities();
+		<br/>var safe-string = entities.encode(string);</p></li>
 
 
 	<li> <h3>Latitude and Longitude Numbers are not checked</h3>
-		<p>Can add values that aren't numbers-- Show as NaN on log, and marker shows at 0 0 on map
-		-also can add values that don't make sense (aka out of range of possible lat and long)</p></li>
-	<li> <h3>Associative array injection on GET parameter</h3><p> can see all database entries
-		-remediate by checking and neutralizing all get and post parameters
+		<h4>Severity: Mild</h4>
+		<h4>Found on: POSTs submitted to '/sendlocation' and then displayed on the '/' homepage and on the mmap client</h4>
+		<p>Users can set their latitude and longitude values to types that aren't numbers. These then display as NaN on the '/' homepage and the markers for these users show up at 0, 0 (an invalid location). Users can also set their locations to be outside the the "valid" range, -90 to 90 degrees.<br/><img class="full" src="invalid_post.png" alt="invalid POST request"/><br/><img class="small-pic" src="NaN.png" alt="NaN lat and lng"/><br/><br/><img class="small-pic" src="invalid.png" alt="Invalid input"/></p>
+		<h4>Resolution:</h4>
+		<p>A simple check after parsing the lat and lng values to floats will ensure that entries that non-number lat or lng values will not be entered into the database. Further, a simple functin can check that the values are within a "valid" range.</p>
 
+	</li>
+	<li> <h3>Associative array injection on GET parameter</h3>
+		<h4>Severity: Moderate</h4>
+		<h4>Found on the 'location.json' page</h4>
+		<p> A user can see all database entries using a GET request by using associative array injection. By simply passing 'login[$ne]=something', the page will display all users that don't have a login of "something". This allows a user to see all data in the database, potentially exposing items that should be protected.<img class="full" src="ass_arr_inj.png" alt="Associative Array Injection"/></p>
+		<h4>Resolution:</h4>
+		</p>Check and neutralize all get and post parameters.</p>
+</li></ol>
+
+
+<p>
 	-sidenote: had to change server to show on my local
 	-had to change mmap line 97 from 
 		student_list = JSON.parse(xhr.responseText);
@@ -30,6 +46,7 @@
 		student_list = JSON.parse(xhr.responseText).students;
 	to get the other people to show
 	-also the marker doesn't seem to be showing the current location
-	</p></li></ol>
+	</p>
+	<br/><br/>
 </body>
 </html>
