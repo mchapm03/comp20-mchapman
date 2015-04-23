@@ -8,7 +8,15 @@
 
 <body>
 	<h1>Security Assessment of Owen Martin's Marauder's Map</h1>
-	1. Cross Site scripting
+	<p>1. Cross Site scripting
+
+		To guard against this: 
+		Use HTML encoding. Can use the npm package html-entities. Envoke with:
+		var Entities = require('html-entities').XmlEntities;
+		entities = new Entities();
+		var safe-string = entities.encode(string);
+
+
 	2. Can add values that aren't numbers-- Show as NaN on log, and marker shows at 0 0 on map
 		-also can add values that don't make sense (aka out of range of possible lat and long)
 	3. Associative array injection on GET parameter-- can see all database entries
@@ -21,6 +29,6 @@
 		student_list = JSON.parse(xhr.responseText).students;
 	to get the other people to show
 	-also the marker doesn't seem to be showing the current location
-
+	</p>
 </body>
 </html>
