@@ -9,44 +9,44 @@
 
 <body>
 	<h1>Security Assessment of Owen Martin's Marauder's Map</h1>
-		<ol><li> <h3>Cross Site scripting</h3>
+	<h3>Introduction</h3>
+	<p>The purpose of this assignment was to analyze Owen Martin's Marauder's Map and the associated web application for security vulnerabilities. The Marauder's Map shows the location of the user and other classmates on a map. To do this, the client accesses the web server and database using the XMLHttpRequest object. The web application also can show all locations in listed format on it's '/' homepage, and can find a specific user's most recent location on the '/location.json' using the login=user parameter.</p><p>
+	It should be noted that the application was run locally, and a few changes were necessary to make this happen. Specifically in the index.html file of the mmap, line 97 was changed from student_list = JSON.parse(xhr.responseText); to student_list = JSON.parse(xhr.responseText).students. Otherwise, the application and client code were kept in tact.</p>
+	<h3>Methodology</h3>
+	<p>A number of methods were used to test the web application for security vulnerabilities. First, a "black box" approach was taken. In this process, the application was used in different ways, but without looking at the source code. A number of different POST requests were sent to the server using postman. These requests included invalid locations, javascript code for the login parameter, and POSTs with meaningless parameters. The outcomes were tested by viewing the '/' homepage and also the mmap. Next, the 'locations.json' GET request was tested using a variety of values and characters. Finally, the actual code was analyzed in order to find other potential vulnerabilities.</p>
+	<h3>Abstract of Findings</h3>
+	<p>Owen Martin's Marauder's Map contains several security problems. All of the problems identified in this report come from placing too much trust in the user. By allowing mostly unmodified user input to render on a page, query the database, or populate the database, the application is vunerable to cross site scripting attacks, invalid input storage, and associative array injection. With a few modifications, however, the site can prevent such unwanted activity.</p>
+		<ol><li> <h3>Cross Site Scripting (XSS)</h3>
 			<h4>Severity: High</h4>
 			<h4>Found on: POSTs submitted to '/sendlocation' and then displayed on the '/' homepage</h4>
 
-		<div class="problem"><p>This mmap web application is vulnerable to Cross Site Scripting attack because the client shows user input without encoding or sanitizing special characters. Cross Site scripting can occur when a user passes javascript as an input. When this input is rendered on a web page the script will be executed, and the javascript will be run. An example of an attach would be for a user to pass &lt;script&gt;document.body.innerHTML='&lt;h1&gt;Youve been hacked by Maggie!&lt;/h1&gt;&lt;img &quot;http://www.gotuftsjumbos.com/images/field_hockey/2012_headshots/chapman.JPG?max_width=160&amp;max_height=210&quot;/&gt;'&lt;/script&gt; as the login parameter. This causes the following to show when the locations are displayed:<br/><img class="small-pic" src="xss.png" alt="Bad effects from XSS"/>Users essecially have access to do anything that a javascript function could do.</ul></p></div>
+		<div class="problem"><p>This mmap web application is vulnerable to Cross Site Scripting attack because the client shows user input without encoding or sanitizing special characters. Cross Site scripting can occur when a user passes javascript as an input. When this input is rendered on a web page the script will be executed, and the javascript will be run. An example of an attack (and how this attack was found) would be for a user to pass &lt;script&gt;document.body.innerHTML='&lt;h1&gt;Youve been hacked by Maggie!&lt;/h1&gt;&lt;img &quot;http://www.gotuftsjumbos.com/images/field_hockey/2012_headshots/chapman.JPG?max_width=160&amp;max_height=210&quot;/&gt;'&lt;/script&gt; as the login parameter. This causes the following to show when the locations are displayed on the '/' homepage:<br/><img class="small-pic" src="xss.png" alt="Bad effects from XSS"/>Users essecially have access to do anything that a javascript function could do, giving them way too much power.</ul></p></div>
 		<h4>Resolution:</h4> 
 		<p>Use HTML encoding. Can use the npm package html-entities. Envoke with:
 		<br/>var Entities = require('html-entities').XmlEntities;
 		<br/>entities = new Entities();
-		<br/>var safe-string = entities.encode(string);</p></li>
+		<br/>var safe-string = entities.encode(string);
+		<br/>By using this method, all user login values will display as strings, and will not envoke javascript operations.</p></li>
 
 
-	<li> <h3>Latitude and Longitude Numbers are not checked</h3>
+	<li> <h3>Invalid Inputs are not checked</h3>
 		<h4>Severity: Mild</h4>
 		<h4>Found on: POSTs submitted to '/sendlocation' and then displayed on the '/' homepage and on the mmap client</h4>
-		<p>Users can set their latitude and longitude values to types that aren't numbers. These then display as NaN on the '/' homepage and the markers for these users show up at 0, 0 (an invalid location). Users can also set their locations to be outside the the "valid" range, -90 to 90 degrees.<br/><img class="full" src="invalid_post.png" alt="invalid POST request"/><br/><img class="small-pic" src="NaN.png" alt="NaN lat and lng"/><br/><br/><img class="small-pic" src="invalid.png" alt="Invalid input"/></p>
+		<p>Users can set their latitude and longitude values to types that aren't numbers. These then display as NaN on the '/' homepage and the markers for these users show up at 0, 0 (an invalid location). Users can also set their locations to be outside the the "valid" range, -90 to 90 degrees for latitude and -180 to 180 for longitude. Although these values are not wanted, this attack does not affect the other information stored in the database. Additionally, lat and lng values outside the valid range do not crash the mmap, but instead simply do not render on the map. The following images show how this vulnerability was found, and the effects that it caused:<br/><br/><img class="full" src="invalid_post.png" alt="invalid POST request"/><br/><br/><img class="small-pic" src="NaN.png" alt="NaN lat and lng"/><br/><br/><img class="small-pic" src="invalid.png" alt="Invalid input"/></p>
 		<h4>Resolution:</h4>
-		<p>A simple check after parsing the lat and lng values to floats will ensure that entries that non-number lat or lng values will not be entered into the database. Further, a simple functin can check that the values are within a "valid" range.</p>
+		<p>A simple check after parsing the lat and lng values to floats (if parseFloat(lat)!='NaN') will ensure that entries that non-number lat or lng values will not be entered into the database. Further, a simple functin can check that the values are within a "valid" range.</p>
 
 	</li>
 	<li> <h3>Associative array injection on GET parameter</h3>
 		<h4>Severity: Moderate</h4>
 		<h4>Found on the 'location.json' page</h4>
-		<p> A user can see all database entries using a GET request by using associative array injection. By simply passing 'login[$ne]=something', the page will display all users that don't have a login of "something". This allows a user to see all data in the database, potentially exposing items that should be protected.<img class="full" src="ass_arr_inj.png" alt="Associative Array Injection"/></p>
+		<p> A user can see all database entries using a GET request by using associative array injection. By simply passing 'login[$ne]=something', the page will display all users that don't have a login of "something". This allows a user to see all data in the database, potentially exposing items that should be protected.The following screenshot shows how this attack was executing and the resulting information exposed:<br/><img class="full" src="ass_arr_inj.png" alt="Associative Array Injection"/></p>
 		<h4>Resolution:</h4>
-		</p>Check and neutralize all get and post parameters.</p>
+		<p>Check and neutralize all get and post parameters by encoding special characters as described earlier.</p>
 </li></ol>
 
-
-<p>
-	-sidenote: had to change server to show on my local
-	-had to change mmap line 97 from 
-		student_list = JSON.parse(xhr.responseText);
-	to
-		student_list = JSON.parse(xhr.responseText).students;
-	to get the other people to show
-	-also the marker doesn't seem to be showing the current location
-	</p>
+	<h3>Conclusions</h3>
+	<p>Without modifications, Owen Martin's Marauder's Map client and web application are subject to many security issues, including cross site scripting, invalid data storage, and associate array injection. These problems allow the user to both tamper with the database, so that the application does not perform as intended, and they also allow the user to use the application in unwanted, and possibly dangerous ways. By refusing to trust user input, these problems can be avoided. The most helpful change would be to encode all user input so that special characters do not cause unwanted operations. Additionally, by validating that the user input makes sense in the context (ie ensuring that numbers are in fact numbers and are in the correct range), the application can further avoid unwanted attack. </p>
 	<br/><br/>
 </body>
 </html>
